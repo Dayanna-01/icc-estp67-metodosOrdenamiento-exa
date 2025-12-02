@@ -89,7 +89,7 @@ Cada fila deberá utilizar el método `binarySearchByValidYears` para buscar dos
 ```env
 STUDENT_NAME=SU-NOMBRE-COMPLETO
 STUDENT_EMAIL=su.email@est.ups.edu.ec
-FILA_ESTUDIANTE=A
+FILA_ESTUDIANTE=D
 ```
 
 ⚠️ **IMPORTANTE**: Debe cambiar `FILA_ESTUDIANTE=A` por la letra de su fila asignada (A, B, C o D). Si no configura correctamente este archivo, los tests no funcionarán.
@@ -217,121 +217,29 @@ No encontrada
 **INSTRUCCIONES**: Ejecute `App.java` y copie TODA la salida de consola aquí (Ctrl+C / Ctrl+V):
 
 ```
-[COPIE AQUÍ LA SALIDA COMPLETA DE LA CONSOLA]
 ```
+Examen interciclo de Estructuras de Datos
+Original:
+Honda - Años válidos: 6
+Toyota - Años válidos: 10
+Ford - Años válidos: 5
+Chevrolet - Años válidos: 8
+Nissan - Años válidos: 7
+Mazda - Años válidos: 12
+Hyundai - Años válidos: 8
 
+Ordenado por Bubble Sort descendente:
+Mazda - Años válidos: 12
+Toyota - Años válidos: 10
+Chevrolet - Años válidos: 8
+Hyundai - Años válidos: 8
+Nissan - Años válidos: 7
+Honda - Años válidos: 6
+Ford - Años válidos: 5
+
+Buscar marca con 7 años validos
+Marca encontrada: Nissan
+
+Buscar marca con 4 años validos
+No se encontró ninguna marca
 ---
-public class Brand {
-
-    private String name;
-    private CarModel[] models;
-
-    // ... constructores, getters, setters
-
-    /**
-     * Calcula el total de años válidos de todos los modelos de esta marca.
-     * Un año es válido cuando isValid == true
-     */
-    public int getTotalValidYears() {
-        int total = 0;
-
-        if (models == null) return 0;
-
-        for (CarModel model : models) {
-            if (model == null || model.getYears() == null) continue;
-
-            for (CarYear year : model.getYears()) {
-                if (year != null && year.isValid()) {
-                    total++;
-                }
-            }
-        }
-        return total;
-    }
-
-    @Override
-    public String toString() {
-        return name + " - Años válidos: " + getTotalValidYears();
-    }
-}
-public Brand[] sortSelectionDesc(Brand[] brands) {
-
-    for (int i = 0; i < brands.length - 1; i++) {
-
-        int maxIndex = i;
-
-        for (int j = i + 1; j < brands.length; j++) {
-
-            if (brands[j].getTotalValidYears() > brands[maxIndex].getTotalValidYears()) {
-                maxIndex = j;
-            }
-        }
-
-        // swap
-        Brand temp = brands[i];
-        brands[i] = brands[maxIndex];
-        brands[maxIndex] = temp;
-    }
-
-    return brands;
-}
-public Brand binarySearchByValidYears(Brand[] brands, int validYears, boolean isAscending) {
-    int left = 0;
-    int right = brands.length - 1;
-
-    while (left <= right) {
-
-        int mid = (left + right) / 2;
-        int midValue = brands[mid].getTotalValidYears();
-
-        if (midValue == validYears) {
-            return brands[mid];
-        }
-
-        if (isAscending) {
-            // orden ASC: valores pequeños están al inicio
-            if (validYears < midValue) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        } else {
-            // orden DESC: valores grandes están al inicio
-            if (validYears > midValue) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-    }
-
-    return null;
-}
-public class App {
-    public static void main(String[] args) {
-
-        BrandController controller = new BrandController();
-        Brand[] brands = TestData.createBrands();
-
-        System.out.println("Original:");
-        for (Brand b : brands) System.out.println(b);
-
-        System.out.println("\nOrdenado por Selection Sort descendente:");
-        controller.sortSelectionDesc(brands);
-        for (Brand b : brands) System.out.println(b);
-
-        System.out.println("\nBuscar marca con 8 años válidos:");
-        Brand found1 = controller.binarySearchByValidYears(brands, 8, false);
-        System.out.println(found1 != null ? found1 : "No encontrada");
-
-        System.out.println("\nBuscar marca con 10 años válidos:");
-        Brand found2 = controller.binarySearchByValidYears(brands, 10, false);
-        System.out.println(found2 != null ? found2 : "No encontrada");
-    }
-}
-
-
-
-
-
-
